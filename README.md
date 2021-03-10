@@ -94,7 +94,12 @@ end record;
 - Improve ordinary fixed point format performance. 
 - Rewrite float point format implementation.
 - Implements string edit.
+- Provide JSON formatting
 
+
+## License
+
+This software is published under the [MIT License](license.md)
 
 
 

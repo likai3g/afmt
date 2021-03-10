@@ -1,6 +1,6 @@
 name = "afmt"
-description = "Shiny new project"
-version = "0.0.0"
+description = "Ada String Format Library"
+version = "0.0.4"
 
 authors = ["Kylix"]
 maintainers = ["Kylix <likai3g@163.com>"]
