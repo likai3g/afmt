@@ -1,0 +1,7 @@
+name = "afmt"
+description = "Shiny new project"
+version = "0.0.0"
+
+authors = ["Kylix"]
+maintainers = ["Kylix <likai3g@163.com>"]
+maintainers-logins = ["likai3g"]
