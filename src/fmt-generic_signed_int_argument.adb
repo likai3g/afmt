@@ -1,5 +1,4 @@
 with Interfaces; use Interfaces;
-with Ada.Unchecked_Conversion;
 package body Fmt.Generic_Signed_Int_Argument is
 
    function To_Argument (X : Signed_Int_Type) return Argument_Type'Class
@@ -63,15 +62,15 @@ package body Fmt.Generic_Signed_Int_Argument is
       Self : in out Signed_Int_Argument_Type)
       return Natural
    is
-      Y : Signed_Int_Type;
-      B : Signed_Int_Type;
+      B : Unsigned_64;
+      Y : Unsigned_64;
       L : Natural := 1;
    begin
       if Self.Width /= 0 then
          return Self.Width;
       end if;
-      Y := abs Self.Value;
-      B := Signed_Int_Type(Self.Base);
+      Y := Safe_Abs(Long_Long_Integer(Self.Value));
+      B := Unsigned_64(Self.Base);
       while Y > B - 1 loop
          Y := Y / B;
          L := L + 1;

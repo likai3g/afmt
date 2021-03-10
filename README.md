@@ -1,4 +1,4 @@
-# README
+# Ada Format Library
 
 
 ## Introduce
@@ -87,6 +87,13 @@ end record;
 
 
 ```
+
+## TODO
+
+
+- Improve ordinary fixed point format performance. 
+- Rewrite float point format implementation.
+- Implements string edit.
 
 
 
