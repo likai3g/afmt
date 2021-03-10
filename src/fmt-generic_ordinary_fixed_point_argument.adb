@@ -198,7 +198,7 @@ package body Fmt.Generic_Ordinary_Fixed_Point_Argument is
          To(L) := '-';
          L := L - 1;
       end if;
-      if L > To'First then
+      if L >= To'First then
          To(To'First .. L) := (others => Self.Fill);
       end if;
    end Put;

@@ -1,7 +1,10 @@
-with Interfaces;
+with Interfaces; 
 package body Fmt.Generic_Decimal_Fixed_Point_Argument is
 
+   subtype uint64_t is Interfaces.Unsigned_64;
+
    Scale : constant Long_Long_Integer := 10 ** Fixed_Point_Type'Scale;
+   To_Char : constant array(uint64_t range 0..9) of Character := "0123456789";
 
    function To_Long_Long_Integer (X : Fixed_Point_Type) return Long_Long_Integer
    is
@@ -76,13 +79,14 @@ package body Fmt.Generic_Decimal_Fixed_Point_Argument is
    overriding
    function Get_Length (Self : in out Fixed_Point_Argument_Type) return Natural
    is
+      use Interfaces;
    begin
       if Self.Width /= 0 then
          return Self.Width;
       else
          declare
             X : constant Long_Long_Integer := To_Long_Long_Integer(Self.Value);
-            Y : Long_Long_Integer := abs X;
+            Y : Unsigned_64 := Safe_Abs(X);
             L : Natural := 1 + Self.Aft; 
          begin
             for I in 1 .. Self.Aft loop
@@ -108,11 +112,11 @@ package body Fmt.Generic_Decimal_Fixed_Point_Argument is
       Edit : String;
       To   : in out String)
    is
-      M : constant array(Long_Long_Integer range 0..9) of Character := "0123456789";
+      use Interfaces;
       T : constant Natural := To'Last + 1;
       H : constant Natural := To'First;
       X : constant Long_Long_Integer := To_Long_Long_Integer(Self.Value);
-      Y : Long_Long_Integer := abs X;
+      Y : Unsigned_64 := Safe_Abs(X);
       L : Natural := To'Last;
       A : Natural;
    begin
@@ -136,7 +140,7 @@ package body Fmt.Generic_Decimal_Fixed_Point_Argument is
          A := Self.Aft;
       end if;
       for I in 1 .. A loop
-         To(L) := M(Y mod 10);
+         To(L) := To_Char(Y mod 10);
          Y := Y / 10;
          L := L - 1;
          if L < H then
@@ -152,7 +156,7 @@ package body Fmt.Generic_Decimal_Fixed_Point_Argument is
       end if;
       -- output fore
       for I in Natural range 1 .. Self.Fore loop
-         To(L) := M(Y mod 10);
+         To(L) := To_Char(Y mod 10);
          Y := Y / 10;
          L := L - 1;
          if L < H then
@@ -168,7 +172,9 @@ package body Fmt.Generic_Decimal_Fixed_Point_Argument is
          To(L) := '-';
          L := L - 1;
       end if;
-      To(To'First .. L) := (others => Self.Fill);
+      if L >= To'First then
+         To(To'First .. L) := (others => Self.Fill);
+      end if;
    end Put;
 
 end Fmt.Generic_Decimal_Fixed_Point_Argument;
